@@ -12,14 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Try unmuting music after a short delay
     setTimeout(() => {
-        unmuteMusic()
-            .then(() => {
-                console.log("Music unmuted and faded in successfully.");
-            })
-            .catch(err => {
-                console.warn("Autoplay unmute failed, showing fallback overlay:", err);
-                showFallbackButton();
-            });
+
+        showFallbackButton();
     }, 500);
 
     // Remove fallback overlay if any click happens elsewhere
@@ -172,15 +166,15 @@ function showFallbackButton() {
     let overlay = document.createElement('div');
     overlay.id = 'audio-overlay';
     overlay.style.position = 'fixed';
-    // overlay.style.top = '0';
-    // overlay.style.left = '0';
-    // overlay.style.width = '100%';
-    // overlay.style.height = '100%';
-    // overlay.style.background = 'rgba(0,0,0,0.8)';
-    // overlay.style.display = 'flex';
-    // overlay.style.justifyContent = 'center';
-    // overlay.style.alignItems = 'center';
-    // overlay.style.zIndex = '9999';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.background = 'rgba(0,0,0,0.8)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '9999';
     overlay.innerHTML = `<button style="padding:20px 40px; font-size:18px;">Tap to enable music</button>`;
     document.body.appendChild(overlay);
 
