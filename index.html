@@ -4,35 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Our Anniversary</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background-color: #ffe0f0;
-            color: #d63384;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        h1 {
-            font-size: 2.5em;
-        }
-
-        #countdown,
-        #together-time {
-            font-size: 1.8em;
-            margin-top: 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -43,57 +16,20 @@
         <p id="countdown"></p>
     </div>
 
-    <script>
-        // Set your anniversary date (YYYY, MM - 1, DD)
-        const anniversaryDate = new Date(2025, 4, 14); // Example: May 14, 2025
-        const startDate = new Date(2024, 4, 14); // Your start date
+    <div class="scroll-down">&#x2193;</div>
 
-        function updateCountdown() {
-            const now = new Date();
-            const timeLeft = anniversaryDate - now;
+    <!-- Image Sections with Slide-in effect -->
+    <div class="content"><img src="photo1.jpg" class="slide-in-left"></div>
+    <!-- <div class="content"><img src="photo2.jpg" class="slide-in-right"></div> -->
+    <div class="content"><img src="photo3.jpg" class="slide-in-left"></div>
+    <div class="content"><img src="photo4.jpg" class="slide-in-right"></div>
 
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    <audio id="love-song" src="Ordinary.mp3" preload="auto" muted autoplay loop></audio>
 
-            document.getElementById('countdown').innerText =
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
 
-        function updateTogetherTime() {
-            const now = new Date();
-            let years = now.getFullYear() - startDate.getFullYear();
-            let months = now.getMonth() - startDate.getMonth();
-            let days = now.getDate() - startDate.getDate();
+    <script src="script.js"></script>
 
-            // Adjust days and months if current day is less than start day
-            if (days < 0) {
-                months--;
-                // Borrow days from previous month
-                const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += previousMonth.getDate();
-            }
-            // Adjust months if negative
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-            if (years != 0) {
-                document.getElementById('together-time').innerText =
-                    `We've been together for ${years} years, ${months} months, and ${days} days!`;
-            }
-            else {
-                document.getElementById('together-time').innerText =
-                    `We've been together for ${months} months, and ${days} days!`;
-            }
-        }
 
-        updateCountdown();
-        updateTogetherTime();
-        setInterval(updateCountdown, 1000);
-        setInterval(updateTogetherTime, 1000);
-    </script>
 </body>
 
 </html>
