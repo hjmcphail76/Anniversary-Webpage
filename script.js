@@ -21,14 +21,35 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Image reveal on scroll
+let lastScrollTop = window.scrollY;
+
 document.addEventListener("scroll", () => {
     const images = document.querySelectorAll("img");
+
     images.forEach((img) => {
-        if (img.getBoundingClientRect().top < window.innerHeight - 50) {
+        const rect = img.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Image center relative to viewport center
+        const imageCenterY = rect.top + rect.height / 2;
+        const viewportCenterY = windowHeight / 2;
+
+        const distance = Math.abs(imageCenterY - viewportCenterY);
+        const maxDistance = windowHeight / 1.2; // How far before it's fully hidden
+        const visibility = Math.max(0, 1 - distance / maxDistance); // 0 to 1
+
+        img.style.opacity = visibility;
+        img.style.transform = `translateY(${(1 - visibility) * 50}px)`;
+
+        if (visibility > 0.1) {
             img.classList.add("show");
+        } else {
+            img.classList.remove("show");
         }
     });
 });
+
+
 
 // Scroll-down arrow functionality for smooth scrolling
 document.querySelector('.scroll-down').addEventListener('click', function () {

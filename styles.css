@@ -2,6 +2,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;600&display=swap');
 
 /* General Page Styling */
+
+/* Phones */
+@media (max-width: 480px) {
+
+    /* Resize images */
+    img {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        width: 70%
+    }
+}
+
+/* Desktops */
+@media (min-width: 1025px) {
+
+    /* Resize images */
+    img {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        width: 40%;
+    }
+}
+
+
+
 body {
     font-family: 'Quicksand', 'Comic Neue', cursive, sans-serif;
     text-align: center;
@@ -28,16 +55,12 @@ body {
     margin-top: 10px;
 }
 
-/* Resize images */
-img {
-    width: 35%;
-    max-width: 600px;
-    height: auto;
-    opacity: 0;
-    transform: translateX(100vw);
-    /* Start off-screen */
-    transition: transform 1s ease, opacity 1s ease;
+
+img.show {
+    opacity: 1;
+    transform: translateY(0);
 }
+
 
 /* Slide from the left */
 .slide-in-left {
@@ -47,12 +70,6 @@ img {
 /* Slide from the right */
 .slide-in-right {
     transform: translateX(70vw);
-}
-
-/* When in view, animate the images */
-img.show {
-    opacity: 1;
-    transform: translateX(0);
 }
 
 /* Falling Heart Effect */
