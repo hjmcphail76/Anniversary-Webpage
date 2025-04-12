@@ -27,6 +27,15 @@
     }
 }
 
+* {
+    user-select: none;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE/Edge */
+}
+
+
 html,
 body {
     overflow-x: hidden;

@@ -57,7 +57,7 @@ document.addEventListener("scroll", () => {
         img.style.transform = `translateX(${translateX}px)`;
 
         // Optional: still show/hide scroll arrow
-        if (window.scrollY > 200) {
+        if (window.scrollY > 400) {
             document.querySelector(".scroll-down").style.display = "none";
         }
     });
@@ -192,7 +192,7 @@ function showFallbackButton() {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.background = 'rgba(0,0,0,0.8)';
+    overlay.style.background = 'rgba(0, 0, 0, 0.75)';
     overlay.style.display = 'flex';
     overlay.style.justifyContent = 'center';
     overlay.style.alignItems = 'center';
