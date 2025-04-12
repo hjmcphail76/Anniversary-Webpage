@@ -39,7 +39,7 @@ document.addEventListener("scroll", () => {
         const visibility = Math.max(0, 1 - distance / maxDistance); // 0 to 1
 
         img.style.opacity = visibility;
-        img.style.transform = `translateY(${(1 - visibility) * 50}px)`;
+        img.style.transform = `translateY(${(1 - visibility) * 10}px)`;
 
         if (visibility > 0.1) {
             img.classList.add("show");
@@ -47,28 +47,10 @@ document.addEventListener("scroll", () => {
             img.classList.remove("show");
         }
     });
-});
 
-
-
-// Scroll-down arrow functionality for smooth scrolling
-document.querySelector('.scroll-down').addEventListener('click', function () {
-    const elements = [...document.querySelectorAll('img, .section')];
-    const currentScroll = window.scrollY;
-    let nextElement = null;
-
-    for (const el of elements) {
-        const elTop = el.getBoundingClientRect().top + window.scrollY;
-        if (elTop > currentScroll + 200) {
-            nextElement = el;
-            break;
-        }
-    }
-
-    if (nextElement) {
-        const elTop = nextElement.getBoundingClientRect().top + window.scrollY;
-        const scrollTo = elTop - window.innerHeight / 2 + nextElement.offsetHeight / 2;
-        window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+    if (window.scrollY > 200) {
+        // Scrolling down
+        document.querySelector(".scroll-down").style.display = "none";
     }
 });
 
@@ -113,7 +95,7 @@ function updateTogetherTime() {
 
 // Function for falling hearts animation
 function createHearts() {
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 3; i++) {
         setTimeout(() => {
             const heart = document.createElement("div");
             heart.classList.add("heart");
@@ -136,24 +118,6 @@ function createHearts() {
             }, 4000);
         }, i * 200);
     }
-}
-
-// Optional smooth scroll function
-function smoothScrollTo(targetPosition, duration) {
-    const start = window.scrollY;
-    const distance = targetPosition - start;
-    const startTime = performance.now();
-
-    function step(currentTime) {
-        const elapsed = currentTime - startTime;
-        const t = Math.min(elapsed / duration, 1);
-        const easing = t * t * (3 - 2 * t);
-        window.scrollTo(0, start + distance * easing);
-        if (elapsed < duration) {
-            requestAnimationFrame(step);
-        }
-    }
-    requestAnimationFrame(step);
 }
 
 // Unmute music and gradually fade in volume
