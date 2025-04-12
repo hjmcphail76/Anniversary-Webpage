@@ -30,6 +30,8 @@
 html,
 body {
     overflow-x: hidden;
+    width: 100vw;
+    position: relative;
 }
 
 body {
@@ -54,10 +56,42 @@ body {
 /* Countdown & Together Time */
 #countdown,
 #together-time {
-    font-size: 1.8em;
+    font-size: 2em;
     margin-top: 10px;
 }
 
+#click-here {
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: #d63384;
+    text-decoration: none;
+    cursor: pointer;
+    animation: pulse 1s infinite;
+    font-style: italic;
+}
+
+#note {
+    font-size: 2em;
+    margin-top: 20px;
+    color: #d63384;
+    text-decoration: none;
+    cursor: pointer;
+    font-style: italic;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.025);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 
 img.show {
     opacity: 1;
@@ -67,12 +101,14 @@ img.show {
 
 /* Slide from the left */
 .slide-in-left {
-    transform: translateX(-70vw);
+    transform: translateX(-120vw);
+    overflow-x: hidden;
 }
 
 /* Slide from the right */
 .slide-in-right {
-    transform: translateX(70vw);
+    transform: translateX(120vw);
+    overflow-x: hidden;
 }
 
 /* Falling Heart Effect */

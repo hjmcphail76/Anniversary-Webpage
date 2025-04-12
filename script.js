@@ -8,51 +8,88 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateTogetherTime, 1000);
 
     // Create hearts animation periodically
-    setInterval(() => createHearts(), 400);
+
+    for (i = 0; i < 15; i++) {
+        setTimeout(() => {
+            createHearts();
+        }, i * 200);
+    }
 
     // Try unmuting music after a short delay
     setTimeout(() => {
-
         showFallbackButton();
     }, 500);
 
     // Remove fallback overlay if any click happens elsewhere
     document.addEventListener("click", removeFallbackOverlay);
+
+
 });
+
+document.addEventListener("click", () => {
+    createHearts();
+});
+
 
 // Image reveal on scroll
 let lastScrollTop = window.scrollY;
-
+let typingStarted = false;
 document.addEventListener("scroll", () => {
     const images = document.querySelectorAll("img");
 
-    images.forEach((img) => {
+    images.forEach((img, i) => {
         const rect = img.getBoundingClientRect();
         const windowHeight = window.innerHeight;
 
-        // Image center relative to viewport center
         const imageCenterY = rect.top + rect.height / 2;
         const viewportCenterY = windowHeight / 2;
 
         const distance = Math.abs(imageCenterY - viewportCenterY);
-        const maxDistance = windowHeight / 1.2; // How far before it's fully hidden
-        const visibility = Math.max(0, 1 - distance / maxDistance); // 0 to 1
+        const maxDistance = windowHeight / 1.5;
+        const visibility = Math.max(0, 1 - distance / maxDistance);
+
+        // Slide from left or right based on index
+        const direction = i % 2 === 0 ? -1 : 1; // Alternate left/right
+        const maxOffset = 200; // Max horizontal offset in px
+        const translateX = direction * (1 - visibility) * maxOffset;
 
         img.style.opacity = visibility;
-        img.style.transform = `translateY(${(1 - visibility) * 10}px)`;
+        img.style.transform = `translateX(${translateX}px)`;
 
-        if (visibility > 0.1) {
-            img.classList.add("show");
-        } else {
-            img.classList.remove("show");
+        // Optional: still show/hide scroll arrow
+        if (window.scrollY > 200) {
+            document.querySelector(".scroll-down").style.display = "none";
         }
     });
 
-    if (window.scrollY > 200) {
-        // Scrolling down
-        document.querySelector(".scroll-down").style.display = "none";
+    const noteElement = document.querySelector("#note");
+    const rect = noteElement.getBoundingClientRect();
+    const allImages = document.querySelectorAll("img");
+    const lastImage = allImages[allImages.length - 1];
+    const lastImageRect = lastImage.getBoundingClientRect();
+
+    // Check if bottom of last image is above the viewport (i.e., you've scrolled past it)
+    if (
+        lastImageRect.bottom < window.innerHeight &&
+        !typingStarted
+    ) {
+        typingStarted = true;
+        noteElement.style.opacity = 1;
+        noteElement.innerHTML = "";
+
+        index = 0;
+        typeChars("Dear Estella,<br> This year has been one of my favorites", () => {
+            setTimeout(() => {
+                deleteChars(19, () => {
+                    index = 0;
+                    typeChars("my favorite and I am so grateful to have you in my life.<br>Thank you for always being there for me and believing in me. I can't wait to see what the future holds for us! <br> Love, Harrison");
+                });
+            }, 1000);
+        });
     }
+
 });
+
 
 // Countdown timer updater
 function updateCountdown() {
@@ -173,3 +210,58 @@ function removeFallbackOverlay() {
     let overlay = document.getElementById('audio-overlay');
     if (overlay) overlay.remove();
 }
+
+
+
+function deleteChars(number, callback) {
+    let currentText = document.querySelector('#note').innerHTML;
+    let i = 0;
+
+    function deleteNext() {
+        if (i < number) {
+            if (currentText.endsWith('<br>')) {
+                currentText = currentText.slice(0, -4);
+            } else {
+                currentText = currentText.slice(0, -1);
+            }
+            document.querySelector('#note').innerHTML = currentText;
+            i++;
+            setTimeout(deleteNext, 75);
+        } else if (callback) {
+            callback();
+        }
+    }
+
+    deleteNext();
+}
+
+
+let index = 0; // Initialize index globally
+
+function typeChars(sentence, callback) {
+    const formatted = sentence.replace(/\n/g, '<br>');
+    const noteEl = document.querySelector('#note');
+
+    function typeNext() {
+        if (index < formatted.length) {
+            if (formatted.substring(index, index + 4) === '<br>') {
+                noteEl.innerHTML += '<br>';
+                index += 4;
+            } else {
+                noteEl.innerHTML += formatted.charAt(index);
+                index++;
+            }
+
+            // Scroll it into view
+            noteEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+            setTimeout(typeNext, 100);
+        } else if (callback) {
+            callback();
+        }
+    }
+
+    typeNext();
+}
+
+
