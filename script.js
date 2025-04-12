@@ -93,9 +93,15 @@ document.addEventListener("scroll", () => {
 
 // Countdown timer updater
 function updateCountdown() {
-    const anniversaryDate = new Date("2025-04-14T00:00:00");
-    const now = new Date();
-    const timeLeft = anniversaryDate - now;
+    let anniversaryDate = new Date("2025-04-14T00:00:00");
+    let now = new Date();
+    let timeLeft = anniversaryDate - now;
+    if (timeLeft < 0) {
+        anniversaryDate = new Date("2026-04-14T00:00:00");
+        now = new Date();
+        timeLeft = anniversaryDate - now;
+    }
+
 
     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
     const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
