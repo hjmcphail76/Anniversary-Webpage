@@ -1,6 +1,9 @@
 // --- Full JavaScript File for Our Anniversary Page ---
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.scrollTo(0, 0);
+    window.onbeforeunload = () => window.scrollTo(0, 0);
+
     // Initialize countdown and together-time displays
     updateCountdown();
     updateTogetherTime();
