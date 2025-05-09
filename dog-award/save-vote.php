@@ -1,27 +1,40 @@
 <?php
-// Read the incoming data from POST
+// Set response content type
+header('Content-Type: application/json');
+
+// Read and decode the incoming JSON POST data
 $data = json_decode(file_get_contents("php://input"), true);
+
+// Validate incoming data
+if (!isset($data['date']) || !isset($data['vote'])) {
+    echo json_encode(["status" => "error", "message" => "Missing date or vote"]);
+    exit;
+}
 
 // Path to the JSON file
 $filePath = 'votes.json';
 
-// Check if the file exists
+// Try to load existing votes
 if (file_exists($filePath)) {
-    // Read existing votes data
-    $votes = json_decode(file_get_contents($filePath), true);
+    $fileContent = file_get_contents($filePath);
+    $votes = json_decode($fileContent, true);
+
+    // If the file exists but is invalid, start fresh
+    if (!is_array($votes)) {
+        $votes = [];
+    }
 } else {
-    // If the file doesn't exist, start with an empty array
+    // File doesn't exist, start fresh
     $votes = [];
 }
 
-// Add the new vote to the votes array
-if (isset($data['date']) && isset($data['vote'])) {
-    $votes[$data['date']] = $data['vote'];
+// Add or update the vote for the given date
+$votes[$data['date']] = $data['vote'];
+
+// Save back to the file
+if (file_put_contents($filePath, json_encode($votes, JSON_PRETTY_PRINT))) {
+    echo json_encode(["status" => "success"]);
+} else {
+    echo json_encode(["status" => "error", "message" => "Failed to write to file"]);
 }
-
-// Save the updated votes data back to the file
-file_put_contents($filePath, json_encode($votes, JSON_PRETTY_PRINT));
-
-// Return a success response
-echo json_encode(["status" => "success"]);
 ?>

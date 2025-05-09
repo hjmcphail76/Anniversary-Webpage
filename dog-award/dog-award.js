@@ -1,5 +1,6 @@
 const voteFileUrl = 'votes.json';
-const today = new Date().toISOString().split('T')[0];
+const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD format
+
 
 let votes = {};
 
@@ -22,19 +23,15 @@ function updateUI() {
     document.getElementById('count-Rossco').textContent = count2;
 
     const daysPassed = Object.keys(votes).length;
-    document.getElementById('countdown').textContent = `${365 - daysPassed} days remaining`;
-
-    if (votes[today]) {
-        document.querySelectorAll('button').forEach(btn => btn.disabled = true);
-        const votedDog = votes[today];
-        const votedButton = document.getElementById(votedDog)?.querySelector('button');
-        if (votedButton) votedButton.disabled = false;
+    if (daysPassed < 365) {
+        document.getElementById('countdown').textContent = `${365 - daysPassed} days remaining`;
+    } else {
+        document.getElementById('countdown').textContent = "Voting closed for the year! Come back tomorrow and ask Harrison to clear the JSON server file!";
+        document.getElementById('vote-buttons').style.display = 'none';
     }
 }
 
 async function vote(dog) {
-    if (votes[today] && votes[today] === dog) return; // same vote, do nothing
-
     votes[today] = dog;
     updateUI();
 
