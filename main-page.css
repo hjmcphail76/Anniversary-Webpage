@@ -17,6 +17,15 @@
     padding: 0;
 }
 
+#profilepic {
+    width: 200px;
+    border-radius: 50%;
+    margin: 0px auto;
+    display: block;
+    padding: 5px;
+}
+
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -51,7 +60,7 @@ a:hover {
 }
 
 main {
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
 }
 
